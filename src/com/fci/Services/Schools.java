@@ -4,7 +4,7 @@ import com.fci.Services.Interfaces.Donations;
 
 public class Schools implements Donations {
     @Override
-    public void pay() {
+    public void donate() {
 
     }
 }
