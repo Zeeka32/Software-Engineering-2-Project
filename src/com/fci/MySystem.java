@@ -1,6 +1,6 @@
 package com.fci;
 
-import com.fci.Personel.User;
+import com.fci.Entities.User;
 
 import java.util.LinkedList;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.fci.Personel;
+package com.fci.Entities;
 
 public class User {
     String userName;

@@ -1,7 +1,6 @@
-package com.fci.Services;
+package com.fci.DesignPatterns.Strategy;
 
-import com.fci.Personel.User;
-import com.fci.Services.Interfaces.IPayment;
+import com.fci.Entities.User;
 
 public class PayWithCreditCard implements IPayment {
 
