@@ -1,6 +1,6 @@
-package com.fci.Services.list;
+package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
-import com.fci.Services.Donations;
+import com.fci.Services.ConcreteServices.Donations;
 import com.fci.Services.ServiceProviders.ServiceProvider;
 
 public class CancerHospital extends Donations implements ServiceProvider {
@@ -14,7 +14,9 @@ public class CancerHospital extends Donations implements ServiceProvider {
     public void FormHandler() {
 
     }
-    void pay(){
+
+    @Override
+    public void pay() {
 
     }
 }

@@ -1,6 +1,6 @@
-package com.fci.Services.list;
+package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
-import com.fci.Services.InternetPaymentService;
+import com.fci.Services.ConcreteServices.InternetPaymentService;
 import com.fci.Services.ServiceProviders.ServiceProvider;
 
 public class WEInternet extends InternetPaymentService implements ServiceProvider {
@@ -13,7 +13,9 @@ public class WEInternet extends InternetPaymentService implements ServiceProvide
     public void FormHandler() {
 
     }
-    void pay(){
+
+    @Override
+    public void pay() {
 
     }
 }

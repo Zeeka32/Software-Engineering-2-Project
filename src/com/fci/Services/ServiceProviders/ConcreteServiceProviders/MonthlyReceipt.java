@@ -1,6 +1,6 @@
-package com.fci.Services.list;
+package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
-import com.fci.Services.Landline;
+import com.fci.Services.ConcreteServices.Landline;
 import com.fci.Services.ServiceProviders.ServiceProvider;
 
 public class MonthlyReceipt extends Landline implements ServiceProvider {
@@ -14,7 +14,9 @@ public class MonthlyReceipt extends Landline implements ServiceProvider {
     public void FormHandler() {
 
     }
-    void pay(){
+
+    @Override
+    public void pay() {
 
     }
 }
