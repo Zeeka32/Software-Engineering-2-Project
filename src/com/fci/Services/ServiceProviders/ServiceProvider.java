@@ -1,4 +1,4 @@
-package com.fci.Services;
+package com.fci.Services.ServiceProviders;
 
 public interface ServiceProvider {
     void serviceForm();

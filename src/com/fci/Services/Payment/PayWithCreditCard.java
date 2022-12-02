@@ -1,4 +1,4 @@
-package com.fci.Services;
+package com.fci.Services.Payment;
 
 public class PayWithCreditCard implements IPaymentMethod{
     @Override
