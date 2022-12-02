@@ -1,9 +1,9 @@
 package com.fci.Entities;
 
-public class Wallet {
+public class Wallet implements IPaymentCard{
     double balance = 0.0;
 
-    public void addBalance(double amount) {
+    public void recieve(double amount) {
         balance += amount;
     }
 
@@ -11,7 +11,7 @@ public class Wallet {
         return !(balance < amount);
     }
 
-    public boolean payBalance(double amount) {
+    public boolean pay(double amount) {
         if(checkBalance(amount)){
             balance -= amount;
             return true;

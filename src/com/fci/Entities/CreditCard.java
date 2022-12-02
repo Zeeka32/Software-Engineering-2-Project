@@ -1,12 +1,13 @@
 package com.fci.Entities;
 
-public class CreditCard {
+public class CreditCard implements IPaymentCard{
 
-    String cardNumber;
+    String ccNumber;
     String ccv;
+    String expiryDate;
     double balance = 0.0;
 
-    public void addBalance(double amount) {
+    public void recieve(double amount) {
         balance += amount;
     }
 
@@ -14,7 +15,7 @@ public class CreditCard {
         return !(balance < amount);
     }
 
-    public boolean payBalance(double amount) {
+    public boolean pay(double amount) {
         if(checkBalance(amount)){
             balance -= amount;
             return true;
