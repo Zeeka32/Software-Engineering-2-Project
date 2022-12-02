@@ -13,4 +13,6 @@ public abstract class Service {
     public void setPayment(IPaymentMethod payment) {
         this.payment = payment;
     }
+
+    public abstract void pay();
 }
