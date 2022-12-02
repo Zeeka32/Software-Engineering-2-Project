@@ -6,6 +6,5 @@ import java.util.Vector;
 
 public abstract class MobileRechargeService extends Service {
     Vector<Service> provider = new Vector<>();
-
     public abstract void pay();
 }

@@ -1,7 +1,7 @@
 package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
 import com.fci.Services.ConcreteServices.Landline;
-import com.fci.Services.ServiceProviders.ServiceProvider;
+import com.fci.Services.ServiceProvider;
 
 public class MonthlyReceipt extends Landline implements ServiceProvider {
 

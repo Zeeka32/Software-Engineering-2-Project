@@ -4,7 +4,7 @@ import com.fci.Services.Payment.IPaymentMethod;
 import com.fci.Services.Payment.PayWithCreditCard;
 
 public abstract class Service {
-    IPaymentMethod payment;
+    protected IPaymentMethod payment;
 
     public Service() {
         payment = new PayWithCreditCard();

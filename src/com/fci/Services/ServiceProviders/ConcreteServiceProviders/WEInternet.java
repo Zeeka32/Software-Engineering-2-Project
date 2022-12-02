@@ -1,7 +1,7 @@
 package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
 import com.fci.Services.ConcreteServices.InternetPaymentService;
-import com.fci.Services.ServiceProviders.ServiceProvider;
+import com.fci.Services.ServiceProvider;
 
 public class WEInternet extends InternetPaymentService implements ServiceProvider {
     @Override
