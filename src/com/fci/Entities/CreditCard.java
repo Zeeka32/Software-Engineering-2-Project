@@ -1,13 +1,9 @@
 package com.fci.Entities;
 
 public class CreditCard implements IPaymentCard{
-
-    String ccNumber;
-    String ccv;
-    String expiryDate;
     double balance = 0.0;
 
-    public void recieve(double amount) {
+    public void receive(double amount) {
         balance += amount;
     }
 
