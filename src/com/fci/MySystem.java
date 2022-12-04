@@ -1,52 +1,62 @@
 package com.fci;
 
-import com.fci.Entities.User;
+import com.fci.Entities.History;
+import com.fci.Entities.IAccount;
 
 import java.util.LinkedList;
 import java.util.Objects;
 
 public class MySystem {
-    LinkedList<User> users;
-    LinkedList<User> loggedInUsers;
+    LinkedList<IAccount> users;
+    private IAccount activeUser;
+    private final History systemHistory;
+    private final History refundRequests;
 
     public MySystem() {
         users = new LinkedList<>();
+        systemHistory = new History();
+        refundRequests = new History();
     }
 
-    private User checkValidity(String userName, String email, String password) {
 
-        for (User myUser : users) {
-            if (Objects.equals(email, myUser.getEmail()) && Objects.equals(password, myUser.getPassword())) {
-                if(userName == null || userName.equals(myUser.getUserName())){
-                    return myUser;
+    public boolean signIn(String email, String password) {
+
+        for (IAccount myUser : users) {
+            if (Objects.equals(myUser.getEmail(), email) && Objects.equals(myUser.getPassword(), password)) {
+                activeUser = myUser;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean signUp(IAccount user) {
+
+        for (IAccount myUser : users) {
+            if (Objects.equals(user.getEmail(), myUser.getEmail()) && Objects.equals(user.getPassword(), myUser.getPassword())) {
+                if (user.getUserName().equals(myUser.getUserName())) {
+                    return false;
                 }
             }
         }
 
-        return null;
+        users.add(user);
+        return true;
     }
 
-    public boolean signIn(String email, String password) {
-
-        User user = checkValidity(null, email, password);
-        if (user != null) {
-            loggedInUsers.add(user);
-            return true;
-        }
-
-        return false;
+    public void signOut() {
+        this.activeUser = null;
     }
 
-    public boolean signUp(String userName, String email, String password) {
-
-        User user = checkValidity(userName, email, password);
-        if (user == null) {
-            user = new User(userName, email, password);
-            users.add(user);
-            return true;
-        }
-
-        return false;
+    public IAccount getActiveUser() {
+        return activeUser;
     }
 
+    public History getSystemHistory() {
+        return systemHistory;
+    }
+
+    public History getRefundRequests() {
+        return refundRequests;
+    }
 }

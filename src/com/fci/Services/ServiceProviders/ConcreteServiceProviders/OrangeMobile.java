@@ -1,22 +1,34 @@
 package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
-import com.fci.Services.ConcreteServices.MobileRechargeService;
-import com.fci.Services.ServiceProviders.ServiceProvider;
+import com.fci.Entities.IAccount;
+import com.fci.Services.ServiceProviders.MobileRechargeService;
 
-public class OrangeMobile extends MobileRechargeService implements ServiceProvider {
+import java.util.Scanner;
 
-    @Override
-    public void serviceForm() {
+public class OrangeMobile extends MobileRechargeService {
 
+    private double amount;
+    private String mobileNumber;
+
+    public double serviceForm(IAccount user) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Which number do you want to charge balance to: ");
+        mobileNumber = scanner.next();
+        System.out.print("How much do you want to pay: ");
+        amount = scanner.nextDouble();
+
+        return FormHandler(user);
     }
 
     @Override
-    public void FormHandler() {
-
-    }
-
-    @Override
-    public void pay() {
-
+    public double FormHandler(IAccount user) {
+        if (amount < 0) {
+            System.out.println("Cannot pay negative values, Please try again");
+            serviceForm(user);
+        }else if(!mobileNumber.startsWith("012")) {
+            System.out.println("Invalid Orange number");
+            return serviceForm(user);
+        }
+        return amount;
     }
 }

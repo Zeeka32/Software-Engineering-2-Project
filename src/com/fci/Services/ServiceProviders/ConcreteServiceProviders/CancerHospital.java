@@ -1,22 +1,30 @@
 package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
-import com.fci.Services.ConcreteServices.Donations;
-import com.fci.Services.ServiceProviders.ServiceProvider;
+import com.fci.Entities.IAccount;
+import com.fci.Services.ServiceProviders.Donations;
 
-public class CancerHospital extends Donations implements ServiceProvider {
+import java.util.Scanner;
 
-    @Override
-    public void serviceForm() {
+public class CancerHospital extends Donations {
+    private double amount;
 
+    public double serviceForm(IAccount user) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Which Hospital do you want to donate to: ");
+        String hospitalName = scanner.next();
+        System.out.print("How much do you want to donate: ");
+        amount = scanner.nextDouble();
+
+        return FormHandler(user);
     }
 
     @Override
-    public void FormHandler() {
-
+    public double FormHandler(IAccount user) {
+        if (amount < 0) {
+            System.out.println("Cannot donate negative values, Please try again");
+            return serviceForm(user);
+        }
+        return amount;
     }
 
-    @Override
-    public void pay() {
-
-    }
 }

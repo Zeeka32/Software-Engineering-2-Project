@@ -1,22 +1,35 @@
 package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
-import com.fci.Services.ConcreteServices.InternetPaymentService;
-import com.fci.Services.ServiceProviders.ServiceProvider;
+import com.fci.Entities.IAccount;
+import com.fci.Services.ServiceProviders.InternetPaymentService;
 
-public class OrangeInternet extends InternetPaymentService implements ServiceProvider {
+import java.util.Scanner;
 
-    @Override
-    public void serviceForm() {
+public class OrangeInternet extends InternetPaymentService{
 
+    private double amount;
+    private String mobileNumber;
+
+    public double serviceForm(IAccount user) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Which number do you want to charge internet to: ");
+        mobileNumber = scanner.next();
+        System.out.print("How much do you want to pay: ");
+        amount = scanner.nextDouble();
+
+        return FormHandler(user);
     }
 
     @Override
-    public void FormHandler() {
-
+    public double FormHandler(IAccount user) {
+        if (amount < 0) {
+            System.out.println("Cannot pay negative values, Please try again");
+            serviceForm(user);
+        }else if(!mobileNumber.startsWith("012")) {
+            System.out.println("Invalid Orange number");
+            return serviceForm(user);
+        }
+        return amount;
     }
 
-    @Override
-    public void pay() {
-
-    }
 }
