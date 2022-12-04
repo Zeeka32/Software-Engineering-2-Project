@@ -13,11 +13,6 @@ public abstract class IAccount {
         accountHistory = new History();
     }
 
-    public abstract void add(IAccount acc);
-    public abstract void remove(IAccount acc);
-    public abstract void notifyAccount(IAccount acc);
-    public abstract void updateAccount(IAccount acc);
-
     public String getEmail() {
         return email;
     }

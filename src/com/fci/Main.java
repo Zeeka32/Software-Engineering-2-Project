@@ -386,7 +386,7 @@ public class Main {
 
     private static void calculatePayment(MySystem system, Scanner scanner, CostManager costManager, double price, String service) {
         IPaymentMethod paymentMethod;
-        price = costManager.calculateDiscount(system.getActiveUser(), system, price, service);
+        price = costManager.calculateDiscount(system.getActiveUser(), price, service);
 
         System.out.println("How would you like to pay for this service ?");
         int paymentOption = -1;
@@ -407,7 +407,7 @@ public class Main {
     }
     private static void calculatePaymentLandline(MySystem system, Scanner scanner, CostManager costManager, double price, String service) {
         IPaymentMethod paymentMethod;
-        price = costManager.calculateDiscount(system.getActiveUser(), system, price, service);
+        price = costManager.calculateDiscount(system.getActiveUser(), price, service);
 
         System.out.println("How would you like to pay for this service ?");
         int paymentOption = -1;

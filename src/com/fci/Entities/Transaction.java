@@ -21,7 +21,7 @@ public class Transaction {
         return user;
     }
 
-    public java.lang.String getType() {
+    public String getType() {
         return type;
     }
 
