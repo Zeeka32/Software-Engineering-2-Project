@@ -2,11 +2,11 @@ package com.fci.Entities;
 
 public class Transaction {
     IAccount user;
-    java.lang.String type;
+    String type;
     String string;
     double amount;
 
-    public Transaction(IAccount user, java.lang.String type, String string, double amount) {
+    public Transaction(IAccount user, String type, String string, double amount) {
         this.user = user;
         this.type = type;
         this.string = string;

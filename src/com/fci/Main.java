@@ -10,6 +10,7 @@ import com.fci.Services.Factory.*;
 import com.fci.Services.ServiceProviders.Service;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -64,7 +65,7 @@ public class Main {
                 password = scanner.next();
 
                 java.lang.String type;
-                System.out.println("Account Type: ");
+                System.out.print("Account Type: ");
                 type = scanner.next();
 
                 if(type.equalsIgnoreCase("admin")) {
@@ -268,7 +269,7 @@ public class Main {
 
                             if(IDofRefund == 0) {
                                 break;
-                            }else if(T != null) {
+                            }else if(T != null && !Objects.equals(T.getType(), "Cash On Delivery")) {
                                 Transaction transaction = new Transaction(system.getActiveUser(), "Refund Transaction", T.getService(), T.getAmount());
 
                                 system.getRefundRequests().addTransaction(transaction);
@@ -361,7 +362,7 @@ public class Main {
 
                                 if(approve == 1) {
                                     Transaction transaction = new Transaction(T.getUser(), "Refund Transaction", T.getService(), T.getAmount());
-                                    T.getUser().getCard().pay(T.getAmount());
+                                    T.getUser().getCard().receive(T.getAmount());
                                     system.getSystemHistory().addTransaction(transaction);
                                     System.out.println("Amount Refunded Successfully and this user has been notified!");
                                     system.getRefundRequests().getTransactionHistory().remove(IDofRefund);
