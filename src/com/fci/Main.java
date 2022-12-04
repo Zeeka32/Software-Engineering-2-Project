@@ -1,12 +1,11 @@
 package com.fci;
 
 import com.fci.Entities.*;
-import com.fci.Payment.Discounts.Discount;
-import com.fci.Payment.Discounts.NoDiscount;
-import com.fci.Payment.Discounts.Overall;
-import com.fci.Payment.Discounts.Specific;
+import com.fci.Payment.CashOnDelivery;
+import com.fci.Payment.Discounts.*;
 import com.fci.Payment.IPaymentMethod;
 import com.fci.Payment.PayWithCreditCard;
+import com.fci.Payment.PayWithWallet;
 import com.fci.Services.Factory.*;
 import com.fci.Services.ServiceProviders.Service;
 
@@ -18,8 +17,7 @@ public class Main {
 
         MySystem system = new MySystem();
         Scanner scanner = new Scanner(System.in);
-        IPaymentMethod defaultPayment = new PayWithCreditCard();
-        Discount payment = new NoDiscount(defaultPayment);
+        CostManager costManager = new DiscountCalculator();
 
         ServiceFactory myDonationsFactory = new ConcreteDonationsFactory();
         ServiceFactory myMobileFactory = new ConcreteMobileFactory();
@@ -31,22 +29,22 @@ public class Main {
         HashMap<String, Service> LandlineServices = new HashMap<>();
         HashMap<String, Service> donationServiceProviders = new HashMap<>();
 
-        MobileRechargeServices.put("VodafoneMobile", myMobileFactory.create("VodafoneMobile", payment));
-        MobileRechargeServices.put("EtisalatMobile", myMobileFactory.create("EtisalatMobile", payment));
-        MobileRechargeServices.put("OrangeMobile", myMobileFactory.create("OrangeMobile", payment));
-        MobileRechargeServices.put("WEMobile", myMobileFactory.create("WEMobile", payment));
+        MobileRechargeServices.put("VodafoneMobile", myMobileFactory.create("VodafoneMobile"));
+        MobileRechargeServices.put("EtisalatMobile", myMobileFactory.create("EtisalatMobile"));
+        MobileRechargeServices.put("OrangeMobile", myMobileFactory.create("OrangeMobile"));
+        MobileRechargeServices.put("WEMobile", myMobileFactory.create("WEMobile"));
 
-        InternetPaymentServices.put("VodafoneInternet", myInternetFactory.create("VodafoneInternet", payment));
-        InternetPaymentServices.put("EtisalatInternet", myInternetFactory.create("EtisalatInternet", payment));
-        InternetPaymentServices.put("OrangeInternet", myInternetFactory.create("OrangeInternet", payment));
-        InternetPaymentServices.put("WEInternet", myInternetFactory.create("WEInternet", payment));
+        InternetPaymentServices.put("VodafoneInternet", myInternetFactory.create("VodafoneInternet"));
+        InternetPaymentServices.put("EtisalatInternet", myInternetFactory.create("EtisalatInternet"));
+        InternetPaymentServices.put("OrangeInternet", myInternetFactory.create("OrangeInternet"));
+        InternetPaymentServices.put("WEInternet", myInternetFactory.create("WEInternet"));
 
-        LandlineServices.put("QuarterReceipt", myLandlineFactory.create("QuarterReceipt", payment));
-        LandlineServices.put("MonthlyReceipt", myLandlineFactory.create("MonthlyReceipt", payment));
+        LandlineServices.put("QuarterReceipt", myLandlineFactory.create("QuarterReceipt"));
+        LandlineServices.put("MonthlyReceipt", myLandlineFactory.create("MonthlyReceipt"));
 
-        donationServiceProviders.put("School", myDonationsFactory.create("School", payment));
-        donationServiceProviders.put("NGO", myDonationsFactory.create("NGO", payment));
-        donationServiceProviders.put("Cancer", myDonationsFactory.create("CancerHospital", payment));
+        donationServiceProviders.put("School", myDonationsFactory.create("School"));
+        donationServiceProviders.put("NGO", myDonationsFactory.create("NGO"));
+        donationServiceProviders.put("Cancer", myDonationsFactory.create("CancerHospital"));
 
         int option = 1;
         while(option != 0) {
@@ -108,14 +106,15 @@ public class Main {
                     System.out.print("5-Add balance to CreditCard\n");
                     System.out.print("6-Transfer funds to wallet\n");
                     System.out.print("7-Ask for a refund\n");
-                    System.out.print("0-To Sign Out\n");
+                    System.out.print("8-Show Account Funds\n");
 
                     if(system.getActiveUser() instanceof Admin) {
-                        System.out.print("8-Add Discount\n");
-                        System.out.print("9-Show all transactions\n");
-                        System.out.print("10-Check refund Requests\n");
+                        System.out.print("9-Add Discount\n");
+                        System.out.print("10-Show all transactions\n");
+                        System.out.print("11-Check refund Requests\n");
                     }
 
+                    System.out.print("0-To Sign Out\n");
                     System.out.print(">>>> ");
                     serviceOption = scanner.nextInt();
 
@@ -133,22 +132,25 @@ public class Main {
 
                             if(providerOption == 1) {
                                 double price = MobileRechargeServices.get("VodafoneMobile").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Mobile");
+                                calculatePayment(system, scanner, costManager, price, "Mobile");
+
                                 providerOption = 5;
                             }
                             else if(providerOption == 2) {
                                 double price = MobileRechargeServices.get("EtisalatMobile").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Mobile");
+
+                                calculatePayment(system, scanner, costManager, price, "Mobile");
+
                                 providerOption = 5;
                             }
                             else if(providerOption == 3) {
                                 double price = MobileRechargeServices.get("OrangeMobile").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Mobile");
+                                calculatePayment(system, scanner, costManager, price, "Mobile");
                                 providerOption = 5;
                             }
                             else if(providerOption == 4) {
                                 double price = MobileRechargeServices.get("WEMobile").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Mobile");
+                                calculatePayment(system, scanner, costManager, price, "Mobile");
                                 providerOption = 5;
                             }
 
@@ -167,19 +169,20 @@ public class Main {
 
                             if(providerOption == 1) {
                                 double price = InternetPaymentServices.get("VodafoneInternet").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Internet");
+                                calculatePayment(system, scanner, costManager, price, "Internet");
+
                                 providerOption = 5;
                             }else if(providerOption == 2) {
                                 double price = InternetPaymentServices.get("EtisalatInternet").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Internet");
+                                calculatePayment(system, scanner, costManager, price, "Internet");
                                 providerOption = 5;
                             }else if(providerOption == 3) {
                                 double price = InternetPaymentServices.get("OrangeInternet").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Internet");
+                                calculatePayment(system, scanner, costManager, price, "Internet");
                                 providerOption = 5;
                             }else if(providerOption == 4) {
                                 double price = InternetPaymentServices.get("WEInternet").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Internet");
+                                calculatePayment(system, scanner, costManager, price, "Internet");
                                 providerOption = 5;
                             }
                         }
@@ -195,11 +198,11 @@ public class Main {
 
                             if(providerOption == 1) {
                                 double price = LandlineServices.get("QuarterReceipt").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Landline");
+                                calculatePaymentLandline(system, scanner, costManager, price, "Landline");
                                 providerOption = 3;
                             }else if(providerOption == 2) {
                                 double price = LandlineServices.get("MonthlyReceipt").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Landline");
+                                calculatePaymentLandline(system, scanner, costManager, price, "Landline");
                                 providerOption = 3;
                             }
 
@@ -217,15 +220,16 @@ public class Main {
 
                             if(providerOption == 1) {
                                 double price = donationServiceProviders.get("School").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Donation");
+                                calculatePayment(system, scanner, costManager, price, "Donation");
                                 providerOption = 4;
+
                             }else if(providerOption == 2) {
                                 double price = donationServiceProviders.get("Cancer").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Donation");
+                                calculatePayment(system, scanner, costManager, price, "Donation");
                                 providerOption = 4;
                             }else if(providerOption == 3) {
                                 double price = donationServiceProviders.get("NGO").serviceForm(system.getActiveUser());
-                                payment.pay(system.getActiveUser(), system, price, "Donation");
+                                calculatePayment(system, scanner, costManager, price, "Donation");
                                 providerOption = 4;
                             }
                         }
@@ -268,6 +272,11 @@ public class Main {
                                 Transaction transaction = new Transaction(system.getActiveUser(), "Refund Transaction", T.getService(), T.getAmount());
 
                                 system.getRefundRequests().addTransaction(transaction);
+
+                                if(system.getActiveUser() instanceof Admin) {
+                                    System.out.println("NOTICE : a new refund request has been Issued");
+                                }
+
                                 System.out.println("Admin was Notified of the request");
 
                                 break;
@@ -277,7 +286,10 @@ public class Main {
                         }
 
                     }
-                    else if(serviceOption == 8 && system.getActiveUser() instanceof Admin) {
+                    else if(serviceOption == 8) {
+                        System.out.println(system.getActiveUser().getCard().toString() + " " + system.getActiveUser().getWallet().toString());
+                    }
+                    else if(serviceOption == 9 && system.getActiveUser() instanceof Admin) {
                         while(providerOption != 3) {
                             System.out.print("1-Add overall Discount\n");
                             System.out.print("2-Add Specific Discount\n");
@@ -287,7 +299,7 @@ public class Main {
 
                             int discountOption = -1;
                             if(providerOption == 1) {
-                                payment = new Overall(payment);
+                                costManager = new Overall(costManager);
                                 providerOption = 3;
                             }else if(providerOption == 2) {
                                 while(discountOption != 0) {
@@ -301,19 +313,19 @@ public class Main {
                                     discountOption = scanner.nextInt();
 
                                     if(discountOption == 1) {
-                                        payment = new Specific(payment, "Mobile");
+                                        costManager = new Specific(costManager, "Mobile");
                                         discountOption = 0;
                                         providerOption = 3;
                                     }else if(discountOption == 2) {
-                                        payment = new Specific(payment, "Internet");
+                                        costManager = new Specific(costManager, "Internet");
                                         discountOption = 0;
                                         providerOption = 3;
                                     }else if(discountOption == 3) {
-                                        payment = new Specific(payment, "Landline");
+                                        costManager = new Specific(costManager, "Landline");
                                         discountOption = 0;
                                         providerOption = 3;
                                     }else if(discountOption == 4) {
-                                        payment = new Specific(payment, "Donation");
+                                        costManager = new Specific(costManager, "Donation");
                                         discountOption = 0;
                                         providerOption = 3;
                                     }else if(discountOption == 5) {
@@ -324,11 +336,11 @@ public class Main {
                             }
                         }
                     }
-                    else if(serviceOption == 9 && system.getActiveUser() instanceof Admin) {
+                    else if(serviceOption == 10 && system.getActiveUser() instanceof Admin) {
                         History h = system.getSystemHistory();
                         System.out.println(h.listTransactions());
                     }
-                    else if(serviceOption == 10 && system.getActiveUser() instanceof Admin) {
+                    else if(serviceOption == 11 && system.getActiveUser() instanceof Admin) {
                         int IDofRefund;
                         while(true) {
                             System.out.print("Which Refund do you want to approve or deny ?\n");
@@ -357,15 +369,11 @@ public class Main {
                                     System.out.println("Request has been denied, user has been informed");
                                     system.getRefundRequests().getTransactionHistory().remove(IDofRefund);
                                 }
-
                                 break;
-
                             }else {
                                 System.out.println("Invalid transaction");
                             }
                         }
-
-
                     }
                     else if(serviceOption == 0) {
                         system.signOut();
@@ -373,5 +381,51 @@ public class Main {
                 }
             }
         }
+    }
+
+    private static void calculatePayment(MySystem system, Scanner scanner, CostManager costManager, double price, String service) {
+        IPaymentMethod paymentMethod;
+        price = costManager.calculateDiscount(system.getActiveUser(), system, price, service);
+
+        System.out.println("How would you like to pay for this service ?");
+        int paymentOption = -1;
+        while(paymentOption != 1 && paymentOption != 2) {
+            System.out.println("1-Credit Card");
+            System.out.println("2-Wallet");
+            System.out.print(">>>>");
+            paymentOption = scanner.nextInt();
+        }
+
+        if(paymentOption == 1) {
+            paymentMethod = new PayWithCreditCard();
+        }else {
+            paymentMethod = new PayWithWallet();
+        }
+
+        paymentMethod.pay(system.getActiveUser(), system, price, service);
+    }
+    private static void calculatePaymentLandline(MySystem system, Scanner scanner, CostManager costManager, double price, String service) {
+        IPaymentMethod paymentMethod;
+        price = costManager.calculateDiscount(system.getActiveUser(), system, price, service);
+
+        System.out.println("How would you like to pay for this service ?");
+        int paymentOption = -1;
+        while(paymentOption != 1 && paymentOption != 2 && paymentOption != 3) {
+            System.out.println("1-Credit Card");
+            System.out.println("2-Wallet");
+            System.out.println("3-Cash On Delivery");
+            System.out.print(">>>>");
+            paymentOption = scanner.nextInt();
+        }
+
+        if(paymentOption == 1) {
+            paymentMethod = new PayWithCreditCard();
+        }else if(paymentOption == 2){
+            paymentMethod = new PayWithWallet();
+        }else {
+            paymentMethod = new CashOnDelivery();
+        }
+
+        paymentMethod.pay(system.getActiveUser(), system, price, service);
     }
 }

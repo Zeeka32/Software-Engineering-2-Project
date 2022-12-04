@@ -1,9 +1,6 @@
 package com.fci.Services.ServiceProviders.ConcreteServiceProviders;
 
 import com.fci.Entities.IAccount;
-import com.fci.Payment.IPaymentMethod;
-import com.fci.Payment.PayWithCreditCard;
-import com.fci.Payment.PayWithWallet;
 import com.fci.Services.ServiceProviders.MobileRechargeService;
 
 import java.util.Scanner;
@@ -12,15 +9,6 @@ public class VodafoneMobile extends MobileRechargeService {
 
     private double amount;
     private String mobileNumber;
-    private IPaymentMethod paymentMethod;
-
-    public VodafoneMobile(IPaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public void setPaymentMethod(IPaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
 
     public double serviceForm(IAccount user) {
         Scanner scanner = new Scanner(System.in);
@@ -28,19 +16,6 @@ public class VodafoneMobile extends MobileRechargeService {
         mobileNumber = scanner.next();
         System.out.print("How much do you want to pay: ");
         amount = scanner.nextDouble();
-        System.out.println("How would you like to pay this amount ?");
-        int paymentOption = -1;
-        while(paymentOption != 1 && paymentOption != 2) {
-            System.out.println("1-Credit Card");
-            System.out.println("2-Wallet");
-            paymentOption = scanner.nextInt();
-        }
-
-        if(paymentOption == 1) {
-            setPaymentMethod(new PayWithCreditCard());
-        }else {
-            setPaymentMethod(new PayWithWallet());
-        }
 
         return FormHandler(user);
     }
