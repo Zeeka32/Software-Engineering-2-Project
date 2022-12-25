@@ -2,15 +2,15 @@ package com.fci.fawrysystem.controllers;
 
 import com.fci.fawrysystem.models.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Vector;
 
 @Component
 public class MySystem {
     LinkedList<IAccount> users;
-    private IAccount activeUser;
+    private final Vector<IAccount> loggedInUsers;
     private final History systemHistory;
     private final History refundRequests;
 
@@ -18,17 +18,20 @@ public class MySystem {
         users = new LinkedList<>();
         systemHistory = new History();
         refundRequests = new History();
+        loggedInUsers = new Vector<>();
     }
 
     public String signIn(String email, String password) {
 
-        if(activeUser != null) {
-            return "already signed in to the system";
+        for(IAccount user : loggedInUsers) {
+            if(Objects.equals(user.getEmail(), email)) {
+                return user.getUserName() + " is already signed in to the system";
+            }
         }
 
         for (IAccount myUser : users) {
             if (Objects.equals(myUser.getEmail(), email) && Objects.equals(myUser.getPassword(), password)) {
-                activeUser = myUser;
+                loggedInUsers.add(myUser);
                 return "successfully signed in";
             }
         }
@@ -48,13 +51,18 @@ public class MySystem {
         return "account added successfully";
     }
 
-    public String signOut() {
-        this.activeUser = null;
-        return "signed out successfully";
+    public String signOut(String email) {
+        for(IAccount user : loggedInUsers) {
+            if(Objects.equals(user.getEmail(), email)) {
+                loggedInUsers.remove(user);
+                return user.getUserName() + " has been logged out of the system successfully";
+            }
+        }
+        return "couldn't sign out the given email";
     }
 
-    public IAccount getActiveUser() {
-        return activeUser;
+    public Vector<IAccount> getLoggedInUsers() {
+        return loggedInUsers;
     }
 
     public History getSystemHistory() {
