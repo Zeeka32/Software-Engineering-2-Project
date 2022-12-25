@@ -1,22 +1,17 @@
 package com.fci.fawrysystem.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.Vector;
 
 @RestController
-public class ServiceController {
-    private final MySystem system;
+public class SearchController {
     private final Vector<String> services;
     private final Vector<String> mobileProviders;
     private final Vector<String> internetProviders;
     private final Vector<String> landlineProviders;
     private final Vector<String> donationProviders;
 
-    public ServiceController() {
-        this.system = new MySystem();
+    public SearchController() {
         this.services = new Vector<>();
         this.mobileProviders = new Vector<>();
         this.internetProviders = new Vector<>();
@@ -103,4 +98,5 @@ public class ServiceController {
         }
         return result.toString();
     }
+
 }

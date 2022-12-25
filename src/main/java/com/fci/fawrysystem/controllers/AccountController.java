@@ -14,15 +14,9 @@ import java.util.Vector;
 public class AccountController {
 
     private final MySystem system;
-    private final Vector<String> services;
 
     AccountController() {
-        system = new MySystem();
-        services = new Vector<>();
-        services.add("Mobile Recharge Services");
-        services.add("Internet Services");
-        services.add("LandLine Services");
-        services.add("Donation Services");
+        system = MySystem.getInstance();
     }
 
     @PostMapping(value = "/signUp")
@@ -59,6 +53,7 @@ public class AccountController {
 
     @PostMapping(value = "/addToCard")
     public String addToCreditCard(@RequestBody Map<String, String> payload) {
+
         String email = payload.get("email");
         double amount = Double.parseDouble(payload.get("amount"));
 
@@ -98,10 +93,8 @@ public class AccountController {
 
     }
 
-    @GetMapping(value = "/Balance")
-    public String showCurrentBalance(@RequestBody Map<String, String> payload) {
-
-        String email = payload.get("email");
+    @GetMapping(value = "/Balance/{email}")
+    public String showCurrentBalance(@PathVariable String email) {
 
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         for (IAccount account : loggedInUsers) {
@@ -110,7 +103,7 @@ public class AccountController {
             }
         }
 
-        return "email doesn't exist";
+        return "account not logged in";
 
     }
 
