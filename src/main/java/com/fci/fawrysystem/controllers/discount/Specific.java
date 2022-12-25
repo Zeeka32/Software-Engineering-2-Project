@@ -1,4 +1,4 @@
-package com.fci.fawrysystem.controllers.discountController;
+package com.fci.fawrysystem.controllers.discount;
 
 import com.fci.fawrysystem.models.IAccount;
 

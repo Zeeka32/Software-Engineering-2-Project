@@ -1,4 +1,4 @@
-package com.fci.fawrysystem.controllers.paymentController;
+package com.fci.fawrysystem.controllers.payment;
 
 
 import com.fci.fawrysystem.controllers.MySystem;
