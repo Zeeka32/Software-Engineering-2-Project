@@ -9,6 +9,7 @@ import com.fci.fawrysystem.models.IAccount;
 import com.fci.fawrysystem.models.services.Factory.ConcreteMobileFactory;
 import com.fci.fawrysystem.models.services.Factory.ServiceFactory;
 import com.fci.fawrysystem.models.services.ServiceProviders.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,13 @@ public class MobileServiceController {
         myFactory = new ConcreteMobileFactory();
         manager = DiscountCalculator.getInstance();
         system = MySystem.getInstance();
+    }
+
+    @GetMapping(value = "/mobile/vodafone/form")
+    public Map<String, String> vodafoneMobileForm() {
+        provider = myFactory.create("Vodafone");
+
+        return provider.serviceForm();
     }
 
     @PostMapping(value = "/mobile/vodafone/pay")
@@ -58,6 +66,13 @@ public class MobileServiceController {
 
     }
 
+    @GetMapping(value = "/mobile/etisalat/form")
+    public Map<String, String> etisalatMobileForm() {
+        provider = myFactory.create("Etisalat");
+
+        return provider.serviceForm();
+    }
+
     @PostMapping(value = "/mobile/etisalat/pay")
     public String etisalatMobilePayment(@RequestBody Map<String, String> payload) {
 
@@ -83,6 +98,13 @@ public class MobileServiceController {
             return "invalid amount or entered phone number is not correct";
         }
 
+    }
+
+    @GetMapping(value = "/mobile/orange/form")
+    public Map<String, String> orangeMobileForm() {
+        provider = myFactory.create("Orange");
+
+        return provider.serviceForm();
     }
 
     @PostMapping(value = "/mobile/orange/pay")
@@ -112,8 +134,15 @@ public class MobileServiceController {
 
     }
 
+    @GetMapping(value = "/mobile/we/form")
+    public Map<String, String> weMobileForm() {
+        provider = myFactory.create("WE");
+
+        return provider.serviceForm();
+    }
+
     @PostMapping(value = "/mobile/we/pay")
-    public String WEMobilePayment(@RequestBody Map<String, String> payload) {
+    public String weMobilePayment(@RequestBody Map<String, String> payload) {
 
         provider = myFactory.create("WE");
 

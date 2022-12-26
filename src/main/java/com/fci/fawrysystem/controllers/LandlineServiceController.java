@@ -10,6 +10,7 @@ import com.fci.fawrysystem.models.IAccount;
 import com.fci.fawrysystem.models.services.Factory.ConcreteLandlineFactory;
 import com.fci.fawrysystem.models.services.Factory.ServiceFactory;
 import com.fci.fawrysystem.models.services.ServiceProviders.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,13 @@ public class LandlineServiceController {
         myFactory = new ConcreteLandlineFactory();
         manager = DiscountCalculator.getInstance();
         system = MySystem.getInstance();
+    }
+
+    @GetMapping(value = "/landline/quarter/form")
+    public Map<String, String> quarterReceiptForm() {
+        provider = myFactory.create("QuarterReceipt");
+
+        return provider.serviceForm();
     }
 
     @PostMapping(value = "/landline/quarter/pay")
@@ -56,6 +64,13 @@ public class LandlineServiceController {
             return "invalid amount or entered phone number is not correct";
         }
 
+    }
+
+    @GetMapping(value = "/landline/monthly/form")
+    public Map<String, String> monthlyReceiptForm() {
+        provider = myFactory.create("MonthlyReceipt");
+
+        return provider.serviceForm();
     }
 
     @PostMapping(value = "/landline/monthly/pay")

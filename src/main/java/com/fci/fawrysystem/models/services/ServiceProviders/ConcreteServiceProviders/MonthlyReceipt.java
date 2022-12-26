@@ -1,15 +1,19 @@
 package com.fci.fawrysystem.models.services.ServiceProviders.ConcreteServiceProviders;
 
 import com.fci.fawrysystem.models.services.ServiceProviders.Landline;
-import com.fci.fawrysystem.models.IAccount;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class MonthlyReceipt extends Landline {
 
-
     @Override
-    public void serviceForm(IAccount user) {
+    public Map<String, String> serviceForm() {
+        Map<String, String> form = new HashMap<>();
+        form.put("amount", "");
+        form.put("paymentType", "");
+
+        return form;
 
     }
 

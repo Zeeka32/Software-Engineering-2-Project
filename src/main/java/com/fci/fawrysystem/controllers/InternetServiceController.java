@@ -9,6 +9,7 @@ import com.fci.fawrysystem.models.IAccount;
 import com.fci.fawrysystem.models.services.Factory.ConcreteInternetFactory;
 import com.fci.fawrysystem.models.services.Factory.ServiceFactory;
 import com.fci.fawrysystem.models.services.ServiceProviders.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,13 @@ public class InternetServiceController {
         myFactory = new ConcreteInternetFactory();
         manager = DiscountCalculator.getInstance();
         system = MySystem.getInstance();
+    }
+
+    @GetMapping(value = "/internet/vodafone/form")
+    public Map<String, String> vodafoneInternetForm() {
+        provider = myFactory.create("Vodafone");
+
+        return provider.serviceForm();
     }
 
     @PostMapping(value = "/internet/vodafone/pay")
@@ -57,6 +65,13 @@ public class InternetServiceController {
 
     }
 
+    @GetMapping(value = "/internet/etisalat/form")
+    public Map<String, String> etisalatInternetForm() {
+        provider = myFactory.create("Etisalat");
+
+        return provider.serviceForm();
+    }
+
     @PostMapping(value = "/internet/etisalat/pay")
     public String etisalatInternetPayment(@RequestBody Map<String, String> payload) {
 
@@ -82,6 +97,13 @@ public class InternetServiceController {
             return "invalid amount or entered phone number is not correct";
         }
 
+    }
+
+    @GetMapping(value = "/internet/orange/form")
+    public Map<String, String> orangeInternetForm() {
+        provider = myFactory.create("Orange");
+
+        return provider.serviceForm();
     }
 
     @PostMapping(value = "/internet/orange/pay")
@@ -111,8 +133,15 @@ public class InternetServiceController {
 
     }
 
+    @GetMapping(value = "/internet/we/form")
+    public Map<String, String> weInternetForm() {
+        provider = myFactory.create("WE");
+
+        return provider.serviceForm();
+    }
+
     @PostMapping(value = "/internet/we/pay")
-    public String WEInternetPayment(@RequestBody Map<String, String> payload) {
+    public String weInternetPayment(@RequestBody Map<String, String> payload) {
 
         provider = myFactory.create("WE");
 

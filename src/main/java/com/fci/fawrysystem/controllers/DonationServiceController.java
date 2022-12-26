@@ -9,13 +9,16 @@ import com.fci.fawrysystem.models.IAccount;
 import com.fci.fawrysystem.models.services.Factory.ConcreteDonationsFactory;
 import com.fci.fawrysystem.models.services.Factory.ServiceFactory;
 import com.fci.fawrysystem.models.services.ServiceProviders.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 
+@RestController
 public class DonationServiceController {
     private Service provider;
     private final ServiceFactory myFactory;
@@ -26,6 +29,13 @@ public class DonationServiceController {
         myFactory = new ConcreteDonationsFactory();
         manager = DiscountCalculator.getInstance();
         system = MySystem.getInstance();
+    }
+
+    @GetMapping(value = "/donation/school/form")
+    public Map<String, String> schoolDonationForm() {
+        provider = myFactory.create("School");
+
+        return provider.serviceForm();
     }
 
     @PostMapping(value = "/donation/school/pay")
@@ -55,6 +65,13 @@ public class DonationServiceController {
 
     }
 
+    @GetMapping(value = "/donation/ngo/form")
+    public Map<String, String> ngoDonationForm() {
+        provider = myFactory.create("NGO");
+
+        return provider.serviceForm();
+    }
+
     @PostMapping(value = "/donation/ngo/pay")
     public String ngoDonation(@RequestBody Map<String, String> payload) {
 
@@ -80,6 +97,13 @@ public class DonationServiceController {
             return "invalid amount or entered phone number is not correct";
         }
 
+    }
+
+    @GetMapping(value = "/donation/hospital/form")
+    public Map<String, String> hospitalDonationForm() {
+        provider = myFactory.create("CancerHospital");
+
+        return provider.serviceForm();
     }
 
     @PostMapping(value = "/donation/hospital/pay")
