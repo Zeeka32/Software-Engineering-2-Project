@@ -1,15 +1,20 @@
 package com.fci.fawrysystem.models.services.ServiceProviders.ConcreteServiceProviders;
 
 import com.fci.fawrysystem.models.services.ServiceProviders.MobileRechargeService;
-import com.fci.fawrysystem.models.IAccount;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class OrangeMobile extends MobileRechargeService {
 
+    @Override
+    public Map<String, String> serviceForm() {
+        Map<String, String> form = new HashMap<>();
+        form.put("number", "");
+        form.put("amount", "");
+        form.put("paymentType", "");
 
-    public void serviceForm(IAccount user) {
+        return form;
 
     }
 

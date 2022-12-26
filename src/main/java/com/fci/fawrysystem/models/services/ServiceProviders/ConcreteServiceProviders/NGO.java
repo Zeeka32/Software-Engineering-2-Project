@@ -1,16 +1,20 @@
 package com.fci.fawrysystem.models.services.ServiceProviders.ConcreteServiceProviders;
 
-
 import com.fci.fawrysystem.models.services.ServiceProviders.Donations;
-import com.fci.fawrysystem.models.IAccount;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class NGO extends Donations {
 
+    @Override
+    public Map<String, String> serviceForm() {
+        Map<String, String> form = new HashMap<>();
+        form.put("NGOName", "");
+        form.put("amount", "");
+        form.put("paymentType", "");
 
-    public void serviceForm(IAccount user) {
-
+        return form;
     }
 
     @Override

@@ -84,7 +84,7 @@ public class AccountController {
                     Transaction transaction = new Transaction(account, "Add to Wallet Transaction", "Bank System", amount);
                     account.getAccountHistory().addTransaction(transaction);
                     system.getSystemHistory().addTransaction(transaction);
-                    return amount + "has been transferred from your creditCard to your wallet";
+                    return amount + " has been transferred from your creditCard to your wallet";
                 }
             }
         }
