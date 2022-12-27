@@ -1,11 +1,9 @@
-package com.fci.fawrysystem.models.services.ServiceProviders.ConcreteServiceProviders;
-
-import com.fci.fawrysystem.models.services.ServiceProviders.InternetPaymentService;
+package com.fci.fawrysystem.models.ServiceProviders.ConcreteServiceProviders;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class VodafoneInternet extends InternetPaymentService {
+public class OrangeMobile implements ServiceProvider {
 
     @Override
     public Map<String, String> serviceForm() {
@@ -26,6 +24,6 @@ public class VodafoneInternet extends InternetPaymentService {
 
         if (amount < 0) {
             return false;
-        }else return mobileNumber.startsWith("010");
+        }else return mobileNumber.startsWith("012");
     }
 }

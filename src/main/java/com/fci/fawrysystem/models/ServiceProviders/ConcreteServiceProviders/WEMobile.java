@@ -1,11 +1,9 @@
-package com.fci.fawrysystem.models.services.ServiceProviders.ConcreteServiceProviders;
-
-import com.fci.fawrysystem.models.services.ServiceProviders.InternetPaymentService;
+package com.fci.fawrysystem.models.ServiceProviders.ConcreteServiceProviders;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EtisalatInternet extends InternetPaymentService {
+public class WEMobile implements ServiceProvider {
 
     @Override
     public Map<String, String> serviceForm() {
@@ -26,6 +24,6 @@ public class EtisalatInternet extends InternetPaymentService {
 
         if (amount < 0) {
             return false;
-        }else return mobileNumber.startsWith("011");
+        }else return mobileNumber.startsWith("015");
     }
 }

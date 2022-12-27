@@ -1,11 +1,9 @@
-package com.fci.fawrysystem.models.services.ServiceProviders.ConcreteServiceProviders;
-
-import com.fci.fawrysystem.models.services.ServiceProviders.Donations;
+package com.fci.fawrysystem.models.ServiceProviders.ConcreteServiceProviders;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class NGO extends Donations {
+public class NGO implements ServiceProvider {
 
     @Override
     public Map<String, String> serviceForm() {
