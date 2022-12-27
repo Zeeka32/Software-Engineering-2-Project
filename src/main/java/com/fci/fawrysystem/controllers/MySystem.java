@@ -50,14 +50,14 @@ public class MySystem {
         return "account added successfully";
     }
 
-    public String signOut(String email) {
+    public String signOut(String userName) {
         for(IAccount user : loggedInUsers) {
-            if(Objects.equals(user.getEmail(), email)) {
+            if(Objects.equals(user.getUserName(), userName)) {
                 loggedInUsers.remove(user);
                 return user.getUserName() + " has been logged out of the system successfully";
             }
         }
-        return "couldn't sign out the given email";
+        return "couldn't sign out the given user";
     }
 
     public static MySystem getInstance() {

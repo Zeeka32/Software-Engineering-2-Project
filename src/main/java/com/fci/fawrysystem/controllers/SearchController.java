@@ -86,8 +86,8 @@ public class SearchController {
         return response.toString();
     }
 
-    @GetMapping(value = "/search/{query}")
-    public String search(@PathVariable String query) {
+    @GetMapping(value = "/search")
+    public String search(@RequestParam(value = "query") String query) {
 
         StringBuilder result = new StringBuilder();
 

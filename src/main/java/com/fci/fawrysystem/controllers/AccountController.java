@@ -46,9 +46,9 @@ public class AccountController {
         return system.signIn(email, password);
     }
 
-    @GetMapping(value = "/signOut/{email}")
-    public String signOut(@PathVariable String email) {
-        return system.signOut(email);
+    @GetMapping(value = "/signOut")
+    public String signOut(@RequestParam(value = "userName") String userName) {
+        return system.signOut(userName);
     }
 
     @PostMapping(value = "/addToCard")
@@ -93,12 +93,12 @@ public class AccountController {
 
     }
 
-    @GetMapping(value = "/Balance/{email}")
-    public String showCurrentBalance(@PathVariable String email) {
+    @GetMapping(value = "/Balance")
+    public String showCurrentBalance(@RequestParam(value = "userName") String userName) {
 
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         for (IAccount account : loggedInUsers) {
-            if (Objects.equals(account.getEmail(), email)) {
+            if (Objects.equals(account.getUserName(), userName)) {
                 return account.getUserName() + " currently has " + account.getCard().toString() + " " + account.getWallet().toString();
             }
         }
