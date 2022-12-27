@@ -24,7 +24,6 @@ public class PaymentController {
     }
 
     public double calculatePayment(IAccount account, double price, String service) {
-
         price = manager.calculateDiscount(account, price, service);
         return price;
 
