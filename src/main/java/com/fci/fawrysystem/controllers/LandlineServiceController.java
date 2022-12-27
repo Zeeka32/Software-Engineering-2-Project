@@ -40,6 +40,7 @@ public class LandlineServiceController {
 
         provider = myFactory.create("QuarterReceipt");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));
@@ -115,6 +116,7 @@ public class LandlineServiceController {
 
         provider = myFactory.create("MonthlyReceipt");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));

@@ -8,7 +8,7 @@ import com.fci.fawrysystem.models.IAccount;
 public class PaymentController {
 
     private IPaymentMethod paymentMethod;
-    private final CostManager manager;
+    private CostManager manager;
 
     public PaymentController() {
         paymentMethod = new PayWithCreditCard();
@@ -26,6 +26,10 @@ public class PaymentController {
     public double calculatePayment(IAccount account, double price, String service) {
         price = manager.calculateDiscount(account, price, service);
         return price;
-
     }
+
+    public void updateManger() {
+        manager = DiscountCalculator.getInstance();
+    }
+
 }

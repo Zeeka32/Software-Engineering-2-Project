@@ -42,6 +42,7 @@ public class InternetServiceController {
 
         provider = myFactory.create("Vodafone");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));
@@ -115,6 +116,7 @@ public class InternetServiceController {
 
         provider = myFactory.create("Etisalat");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));
@@ -188,6 +190,7 @@ public class InternetServiceController {
 
         provider = myFactory.create("Orange");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));
@@ -261,6 +264,7 @@ public class InternetServiceController {
 
         provider = myFactory.create("WE");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));

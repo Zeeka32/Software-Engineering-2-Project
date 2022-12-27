@@ -43,6 +43,7 @@ public class DonationServiceController {
 
         provider = myFactory.create("School");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));
@@ -116,6 +117,7 @@ public class DonationServiceController {
 
         provider = myFactory.create("NGO");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));
@@ -187,7 +189,9 @@ public class DonationServiceController {
     @PostMapping(value = "/donation/hospital/calculatePay")
     public Map<String, String> hospitalDonationCalc(@RequestBody Map<String, String> payload) {
 
+        provider = myFactory.create("CancerHospital");
         Map<String, String> response = new HashMap<>();
+        paymentController.updateManger();
 
         if (provider.FormHandler(payload)) {
             double amount = Double.parseDouble(payload.get("amount"));
@@ -197,7 +201,7 @@ public class DonationServiceController {
 
             for (IAccount account : loggedInUsers) {
                 if (Objects.equals(account.getEmail(), email)) {
-                    double price = paymentController.calculatePayment(account, amount, "hospital");
+                    double price = paymentController.calculatePayment(account, amount, "Cancer Hospital");
 
                     if (Objects.equals(paymentType, "card")) {
                         paymentController.setPaymentMethod(new PayWithCreditCard());

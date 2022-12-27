@@ -6,7 +6,7 @@ public class DiscountCalculator implements CostManager {
 
     private static CostManager calculator;
 
-    private DiscountCalculator() {}
+    public DiscountCalculator() {}
 
     @Override
     public double calculateDiscount(IAccount user, double amount, String service) {
