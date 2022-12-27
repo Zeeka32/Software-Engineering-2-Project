@@ -1,20 +1,19 @@
 package com.fci.fawrysystem.controllers;
 
 import com.fci.fawrysystem.models.*;
-import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Vector;
 
-@Component
 public class MySystem {
     LinkedList<IAccount> users;
+    private static MySystem mainSystem;
     private final Vector<IAccount> loggedInUsers;
     private final History systemHistory;
     private final History refundRequests;
 
-    public MySystem() {
+    private MySystem() {
         users = new LinkedList<>();
         systemHistory = new History();
         refundRequests = new History();
@@ -59,6 +58,15 @@ public class MySystem {
             }
         }
         return "couldn't sign out the given email";
+    }
+
+    public static MySystem getInstance() {
+
+        if(mainSystem == null) {
+            mainSystem = new MySystem();
+        }
+
+        return mainSystem;
     }
 
     public Vector<IAccount> getLoggedInUsers() {
