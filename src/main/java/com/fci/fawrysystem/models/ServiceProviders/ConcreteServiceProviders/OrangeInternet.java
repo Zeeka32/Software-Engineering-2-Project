@@ -1,11 +1,9 @@
-package com.fci.fawrysystem.models.services.ServiceProviders.ConcreteServiceProviders;
-
-import com.fci.fawrysystem.models.services.ServiceProviders.MobileRechargeService;
+package com.fci.fawrysystem.models.ServiceProviders.ConcreteServiceProviders;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EtisalatMobile extends MobileRechargeService {
+public class OrangeInternet implements ServiceProvider {
 
     @Override
     public Map<String, String> serviceForm() {
@@ -26,6 +24,7 @@ public class EtisalatMobile extends MobileRechargeService {
 
         if (amount < 0) {
             return false;
-        }else return mobileNumber.startsWith("011");
+        }else return mobileNumber.startsWith("012");
     }
+
 }

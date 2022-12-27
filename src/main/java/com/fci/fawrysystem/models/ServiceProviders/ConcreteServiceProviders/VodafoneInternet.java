@@ -1,11 +1,9 @@
-package com.fci.fawrysystem.models.services.ServiceProviders.ConcreteServiceProviders;
-
-import com.fci.fawrysystem.models.services.ServiceProviders.MobileRechargeService;
+package com.fci.fawrysystem.models.ServiceProviders.ConcreteServiceProviders;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class VodafoneMobile extends MobileRechargeService {
+public class VodafoneInternet implements ServiceProvider {
 
     @Override
     public Map<String, String> serviceForm() {
