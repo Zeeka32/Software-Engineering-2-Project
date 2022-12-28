@@ -1,7 +1,7 @@
-package com.fci.fawrysystem.models;
+package com.fci.fawrysystem.models.account;
 
-public class Admin extends IAccount {
-    public Admin(String userName, String email, String password) {
+public class User extends IAccount {
+    public User(String userName, String email, String password) {
         this.userName = userName;
         this.email = email;
         this.password = password;

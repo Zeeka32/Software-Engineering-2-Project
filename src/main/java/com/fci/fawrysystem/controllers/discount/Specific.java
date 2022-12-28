@@ -1,6 +1,6 @@
 package com.fci.fawrysystem.controllers.discount;
 
-import com.fci.fawrysystem.models.IAccount;
+import com.fci.fawrysystem.models.account.IAccount;
 
 public class Specific extends Discount {
 

@@ -1,9 +1,10 @@
 package com.fci.fawrysystem.controllers;
 
-import com.fci.fawrysystem.models.Admin;
-import com.fci.fawrysystem.models.IAccount;
-import com.fci.fawrysystem.models.Transaction;
-import com.fci.fawrysystem.models.User;
+import com.fci.fawrysystem.models.*;
+import com.fci.fawrysystem.models.account.Admin;
+import com.fci.fawrysystem.models.account.IAccount;
+import com.fci.fawrysystem.models.account.Transaction;
+import com.fci.fawrysystem.models.account.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

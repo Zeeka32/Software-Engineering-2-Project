@@ -1,4 +1,4 @@
-package com.fci.fawrysystem.models;
+package com.fci.fawrysystem.models.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;

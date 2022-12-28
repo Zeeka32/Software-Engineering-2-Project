@@ -1,6 +1,7 @@
-package com.fci.fawrysystem.controllers;
+package com.fci.fawrysystem.models;
 
-import com.fci.fawrysystem.models.*;
+import com.fci.fawrysystem.models.account.History;
+import com.fci.fawrysystem.models.account.IAccount;
 
 import java.util.LinkedList;
 import java.util.Objects;
@@ -79,5 +80,14 @@ public class MySystem {
 
     public History getRefundRequests() {
         return refundRequests;
+    }
+
+    public IAccount getAccount(String userName) {
+        for (IAccount myUser : users) {
+            if (userName.equals(myUser.getUserName())) {
+                return myUser;
+            }
+        }
+        return null;
     }
 }

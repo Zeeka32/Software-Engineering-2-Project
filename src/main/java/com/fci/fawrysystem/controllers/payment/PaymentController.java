@@ -1,9 +1,9 @@
 package com.fci.fawrysystem.controllers.payment;
 
-import com.fci.fawrysystem.controllers.MySystem;
+import com.fci.fawrysystem.models.MySystem;
 import com.fci.fawrysystem.controllers.discount.CostManager;
 import com.fci.fawrysystem.controllers.discount.DiscountCalculator;
-import com.fci.fawrysystem.models.IAccount;
+import com.fci.fawrysystem.models.account.IAccount;
 
 public class PaymentController {
 

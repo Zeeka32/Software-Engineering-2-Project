@@ -1,7 +1,7 @@
 package com.fci.fawrysystem.controllers.discount;
 
 
-import com.fci.fawrysystem.models.IAccount;
+import com.fci.fawrysystem.models.account.IAccount;
 import org.springframework.stereotype.Component;
 
 @Component

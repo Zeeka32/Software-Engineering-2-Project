@@ -1,4 +1,6 @@
-package com.fci.fawrysystem.models;
+package com.fci.fawrysystem.models.account;
+
+import com.fci.fawrysystem.models.account.IAccount;
 
 public class Transaction {
     IAccount user;

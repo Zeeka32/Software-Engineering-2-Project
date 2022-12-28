@@ -1,6 +1,8 @@
-package com.fci.fawrysystem.models;
+package com.fci.fawrysystem.models.account;
 
-public class CreditCard implements IPaymentCard{
+import com.fci.fawrysystem.models.IPaymentCard;
+
+public class CreditCard implements IPaymentCard {
     double balance = 0.0;
 
     public void receive(double amount) {
