@@ -45,7 +45,7 @@ public class LandlineServiceController {
         String provider = payload.get("provider");
         double amount = Double.parseDouble(payload.get("amount"));
         String email = payload.get("email");
-        String paymentType = payload.get("paymentType");
+
 
         this.serviceProvider = myFactory.create(provider);
         Map<String, String> response = new HashMap<>();
@@ -57,12 +57,6 @@ public class LandlineServiceController {
             for (IAccount account : loggedInUsers) {
                 if (Objects.equals(account.getEmail(), email)) {
                     double price = paymentController.calculatePayment(account, amount, provider);
-
-                    if (Objects.equals(paymentType, "card")) {
-                        paymentController.setPaymentMethod(new PayWithCreditCard());
-                    } else {
-                        paymentController.setPaymentMethod(new PayWithWallet());
-                    }
 
                     response.put("amountToPay", String.valueOf(price));
 
@@ -82,11 +76,21 @@ public class LandlineServiceController {
     @PostMapping(value = "/landline/pay")
     public Map<String, String> landlinePayment(@RequestBody Map<String, String> payload) {
 
-        String name = payload.get("name");
+        String name = payload.get("provider");
         double amount = Double.parseDouble(payload.get("amountToPay"));
         String email = payload.get("email");
+        String paymentType = payload.get("paymentType");
+
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         Map<String, String> response = new HashMap<>();
+
+        if (Objects.equals(paymentType, "card")) {
+            paymentController.setPaymentMethod(new PayWithCreditCard());
+        } else if(Objects.equals(paymentType, "wallet")){
+            paymentController.setPaymentMethod(new PayWithWallet());
+        }else {
+            paymentController.setPaymentMethod(new CashOnDelivery());
+        }
 
         for (IAccount account : loggedInUsers) {
             if (Objects.equals(account.getEmail(), email)) {

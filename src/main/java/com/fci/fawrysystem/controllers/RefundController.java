@@ -60,6 +60,7 @@ public class RefundController {
             system.getSystemHistory().addTransaction(T);
             response.put("Response", "Refund Approved");
             T.getUser().getWallet().receive(T.getAmount());
+            T.getUser().getAccountHistory().addTransaction(T);
         } else {
             response.put("Response", "Refund Rejected");
         }

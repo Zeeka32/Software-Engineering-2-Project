@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 
+@RestController
 public class TransactionsController {
     private final MySystem system;
 

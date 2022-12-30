@@ -47,7 +47,6 @@ public class InternetServiceController {
         String provider = payload.get("provider");
         double amount = Double.parseDouble(payload.get("amount"));
         String email = payload.get("email");
-        String paymentType = payload.get("paymentType");
 
         this.serviceProvider = myFactory.create(provider);
         Map<String, String> response = new HashMap<>();
@@ -59,12 +58,6 @@ public class InternetServiceController {
             for (IAccount account : loggedInUsers) {
                 if (Objects.equals(account.getEmail(), email)) {
                     double price = paymentController.calculatePayment(account, amount, provider + " Internet");
-
-                    if (Objects.equals(paymentType, "card")) {
-                        paymentController.setPaymentMethod(new PayWithCreditCard());
-                    } else {
-                        paymentController.setPaymentMethod(new PayWithWallet());
-                    }
 
                     response.put("amountToPay", String.valueOf(price));
 
@@ -84,11 +77,19 @@ public class InternetServiceController {
     @PostMapping(value = "/internet/pay")
     public Map<String, String> internetPayment(@RequestBody Map<String, String> payload) {
 
-        String name = payload.get("name");
+        String name = payload.get("provider");
         double amount = Double.parseDouble(payload.get("amountToPay"));
+        String paymentType = payload.get("paymentType");
         String email = payload.get("email");
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         Map<String, String> response = new HashMap<>();
+
+        if (Objects.equals(paymentType, "card")) {
+            paymentController.setPaymentMethod(new PayWithCreditCard());
+        } else {
+            paymentController.setPaymentMethod(new PayWithWallet());
+        }
+
 
         for (IAccount account : loggedInUsers) {
             if (Objects.equals(account.getEmail(), email)) {

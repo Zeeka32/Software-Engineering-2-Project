@@ -48,7 +48,7 @@ public class DonationServiceController {
         String provider = payload.get("provider");
         double amount = Double.parseDouble(payload.get("amount"));
         String email = payload.get("email");
-        String paymentType = payload.get("paymentType");
+
 
         this.serviceProvider = myFactory.create(provider);
         Map<String, String> response = new HashMap<>();
@@ -60,12 +60,6 @@ public class DonationServiceController {
             for (IAccount account : loggedInUsers) {
                 if (Objects.equals(account.getEmail(), email)) {
                     double price = paymentController.calculatePayment(account, amount, provider);
-
-                    if (Objects.equals(paymentType, "card")) {
-                        paymentController.setPaymentMethod(new PayWithCreditCard());
-                    } else {
-                        paymentController.setPaymentMethod(new PayWithWallet());
-                    }
 
                     response.put("amountToPay", String.valueOf(price));
 
@@ -85,11 +79,18 @@ public class DonationServiceController {
     @PostMapping(value = "/donation/pay")
     public Map<String, String> donationPayment(@RequestBody Map<String, String> payload) {
 
-        String name = payload.get("name");
         double amount = Double.parseDouble(payload.get("amountToPay"));
+        String name = payload.get("provider");
         String email = payload.get("email");
+        String paymentType = payload.get("paymentType");
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         Map<String, String> response = new HashMap<>();
+
+        if (Objects.equals(paymentType, "card")) {
+            paymentController.setPaymentMethod(new PayWithCreditCard());
+        } else {
+            paymentController.setPaymentMethod(new PayWithWallet());
+        }
 
         for (IAccount account : loggedInUsers) {
             if (Objects.equals(account.getEmail(), email)) {

@@ -48,7 +48,6 @@ public class MobileServiceController {
         String provider = payload.get("provider");
         double amount = Double.parseDouble(payload.get("amount"));
         String email = payload.get("email");
-        String paymentType = payload.get("paymentType");
 
         this.serviceProvider = myFactory.create(provider);
         Map<String, String> response = new HashMap<>();
@@ -60,12 +59,6 @@ public class MobileServiceController {
             for (IAccount account : loggedInUsers) {
                 if (Objects.equals(account.getEmail(), email)) {
                     double price = paymentController.calculatePayment(account, amount, provider + " Mobile");
-
-                    if (Objects.equals(paymentType, "card")) {
-                        paymentController.setPaymentMethod(new PayWithCreditCard());
-                    } else {
-                        paymentController.setPaymentMethod(new PayWithWallet());
-                    }
 
                     response.put("amountToPay", String.valueOf(price));
 
@@ -85,11 +78,18 @@ public class MobileServiceController {
     @PostMapping(value = "/mobile/pay")
     public Map<String, String> mobilePayment(@RequestBody Map<String, String> payload) {
 
-        String name = payload.get("name");
+        String name = payload.get("provider");
+        String paymentType = payload.get("paymentType");
         double amount = Double.parseDouble(payload.get("amountToPay"));
         String email = payload.get("email");
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         Map<String, String> response = new HashMap<>();
+
+        if (Objects.equals(paymentType, "card")) {
+            paymentController.setPaymentMethod(new PayWithCreditCard());
+        } else {
+            paymentController.setPaymentMethod(new PayWithWallet());
+        }
 
         for (IAccount account : loggedInUsers) {
             if (Objects.equals(account.getEmail(), email)) {
