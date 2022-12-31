@@ -10,10 +10,10 @@ public class ConcreteInternetFactory implements ServiceFactory {
 
     public ServiceProvider create(String type) {
         return switch (type) {
-            case "WE" -> new WEInternet();
-            case "Orange" -> new OrangeInternet();
-            case "Vodafone" -> new VodafoneInternet();
-            case "Etisalat" -> new EtisalatInternet();
+            case "we" -> new WEInternet();
+            case "orange" -> new OrangeInternet();
+            case "vodafone" -> new VodafoneInternet();
+            case "etisalat" -> new EtisalatInternet();
             default -> null;
         };
     }

@@ -8,8 +8,8 @@ public class ConcreteLandlineFactory implements ServiceFactory {
     @Override
     public ServiceProvider create(String type) {
         return switch (type) {
-            case "QuarterReceipt" -> new QuarterReceipt();
-            case "MonthlyReceipt" -> new MonthlyReceipt();
+            case "quarterreceipt" -> new QuarterReceipt();
+            case "monthlyreceipt" -> new MonthlyReceipt();
             default -> null;
         };
     }
