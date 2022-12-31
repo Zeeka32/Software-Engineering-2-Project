@@ -23,7 +23,7 @@ public class DiscountController {
     @GetMapping(value = "/discount/specific")
     public String specificDiscount(@RequestBody Map<String, String> payload) {
         String serviceName = payload.get("serviceName");
-        discountCalculator = DiscountCalculator.specificDiscount(serviceName);
+        discountCalculator = DiscountCalculator.specificDiscount(serviceName.toLowerCase());
         return "Discount added to " + serviceName + " ;)";
     }
 }

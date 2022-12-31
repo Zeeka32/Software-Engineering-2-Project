@@ -10,10 +10,10 @@ public class ConcreteMobileFactory implements ServiceFactory {
     @Override
     public ServiceProvider create(String type) {
         return switch (type) {
-            case "Vodafone" -> new VodafoneMobile();
-            case "Etisalat" -> new EtisalatMobile();
-            case "Orange" -> new OrangeMobile();
-            case "WE" -> new WEMobile();
+            case "vodafone" -> new VodafoneMobile();
+            case "etisalat" -> new EtisalatMobile();
+            case "orange" -> new OrangeMobile();
+            case "we" -> new WEMobile();
             default -> null;
         };
     }
