@@ -35,7 +35,18 @@ public class RefundController {
             return response;
         }
 
+        if(T.isRefunded()) {
+            response.put("Response", "This transaction has already been refunded");
+            return response;
+        }
+
+        if(T.isPending()) {
+            response.put("Response", "Transaction not valid for refund");
+            return response;
+        }
+
         Transaction refund = new Transaction(acc, "Refund Transaction", T.getService(), T.getAmount());
+        T.setPending(true);
         system.getRefundRequests().addTransaction(refund);
         response.put("Response", "Refund Request is pending");
         return response;
@@ -61,10 +72,12 @@ public class RefundController {
             response.put("Response", "Refund Approved");
             T.getUser().getWallet().receive(T.getAmount());
             T.getUser().getAccountHistory().addTransaction(T);
+            T.setRefunded(true);
         } else {
             response.put("Response", "Refund Rejected");
         }
 
+        T.setPending(false);
         system.getRefundRequests().getTransactionHistory().remove(id);
         return response;
     }

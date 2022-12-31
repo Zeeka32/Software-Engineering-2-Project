@@ -51,25 +51,19 @@ public class InternetServiceController {
         this.serviceProvider = myFactory.create(provider);
         Map<String, String> response = new HashMap<>();
         paymentController.updateManger();
+        Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
 
-        if (this.serviceProvider.FormHandler(payload)) {
-            Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
+        for (IAccount account : loggedInUsers) {
+            if (Objects.equals(account.getEmail(), email)) {
+                double price = paymentController.calculatePayment(account, amount, provider + " Internet");
 
-            for (IAccount account : loggedInUsers) {
-                if (Objects.equals(account.getEmail(), email)) {
-                    double price = paymentController.calculatePayment(account, amount, provider + " Internet");
+                response.put("amountToPay", String.valueOf(price));
 
-                    response.put("amountToPay", String.valueOf(price));
-
-                    return response;
-                }
+                return response;
             }
-
-            response.put("error", "email not logged in");
-
-        } else {
-            response.put("error", "invalid amount or entered phone number is not correct");
         }
+
+        response.put("error", "Account not logged in");
         return response;
 
     }
@@ -78,9 +72,11 @@ public class InternetServiceController {
     public Map<String, String> internetPayment(@RequestBody Map<String, String> payload) {
 
         String name = payload.get("provider");
-        double amount = Double.parseDouble(payload.get("amountToPay"));
+        double amount = Double.parseDouble(payload.get("amount"));
         String paymentType = payload.get("paymentType");
         String email = payload.get("email");
+        serviceProvider = myFactory.create(name);
+
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         Map<String, String> response = new HashMap<>();
 
@@ -90,6 +86,10 @@ public class InternetServiceController {
             paymentController.setPaymentMethod(new PayWithWallet());
         }
 
+        if(!this.serviceProvider.FormHandler(payload)) {
+            response.put("error", "invalid amount or incorrect phone number");
+            return response;
+        }
 
         for (IAccount account : loggedInUsers) {
             if (Objects.equals(account.getEmail(), email)) {

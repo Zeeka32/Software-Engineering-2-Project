@@ -1,4 +1,5 @@
 package com.fci.fawrysystem.controllers;
+
 import com.fci.fawrysystem.models.account.Admin;
 import com.fci.fawrysystem.models.account.IAccount;
 import com.fci.fawrysystem.models.MySystem;
@@ -21,7 +22,7 @@ public class TransactionsController {
     public Vector<LinkedHashMap<String, String>> getTransactionHistory(@RequestParam(value = "userName") String userName) {
         IAccount account = system.getAccount(userName);
 
-        if(account != null) {
+        if (account != null) {
             return account.getAccountHistory().listTransactions();
         }
 
@@ -29,11 +30,22 @@ public class TransactionsController {
     }
 
     @GetMapping(value = "/transaction/all")
-    public Vector<LinkedHashMap<String, String>>  getAllTransactionHistory(@RequestParam(value = "userName") String userName) {
+    public Vector<LinkedHashMap<String, String>> getAllTransactionHistory(@RequestParam(value = "userName") String userName) {
         IAccount account = system.getAccount(userName);
 
-        if(account instanceof Admin) {
+        if (account instanceof Admin) {
             return system.getSystemHistory().listTransactions();
+        }
+
+        return null;
+    }
+
+    @GetMapping(value = "/transaction/refundRequests")
+    public Vector<LinkedHashMap<String, String>> getRefundRequests(@RequestParam(value = "userName") String userName) {
+        IAccount account = system.getAccount(userName);
+
+        if (account instanceof Admin) {
+            return system.getRefundRequests().listTransactions();
         }
 
         return null;

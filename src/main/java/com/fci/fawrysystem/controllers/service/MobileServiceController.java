@@ -53,24 +53,19 @@ public class MobileServiceController {
         Map<String, String> response = new HashMap<>();
         paymentController.updateManger();
 
-        if (this.serviceProvider.FormHandler(payload)) {
-            Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
+        Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
 
-            for (IAccount account : loggedInUsers) {
-                if (Objects.equals(account.getEmail(), email)) {
-                    double price = paymentController.calculatePayment(account, amount, provider + " Mobile");
+        for (IAccount account : loggedInUsers) {
+            if (Objects.equals(account.getEmail(), email)) {
+                double price = paymentController.calculatePayment(account, amount, provider + " Mobile");
 
-                    response.put("amountToPay", String.valueOf(price));
+                response.put("amountToPay", String.valueOf(price));
 
-                    return response;
-                }
+                return response;
             }
-
-            response.put("error", "email not logged in");
-
-        } else {
-            response.put("error", "invalid amount or entered phone number is not correct");
         }
+
+        response.put("error", "Account not logged in");
         return response;
 
     }
@@ -80,8 +75,10 @@ public class MobileServiceController {
 
         String name = payload.get("provider");
         String paymentType = payload.get("paymentType");
-        double amount = Double.parseDouble(payload.get("amountToPay"));
+        double amount = Double.parseDouble(payload.get("amount"));
+        serviceProvider = myFactory.create(name);
         String email = payload.get("email");
+
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         Map<String, String> response = new HashMap<>();
 
@@ -89,6 +86,11 @@ public class MobileServiceController {
             paymentController.setPaymentMethod(new PayWithCreditCard());
         } else {
             paymentController.setPaymentMethod(new PayWithWallet());
+        }
+
+        if(!this.serviceProvider.FormHandler(payload)) {
+            response.put("error", "invalid amount or incorrect phone number");
+            return response;
         }
 
         for (IAccount account : loggedInUsers) {

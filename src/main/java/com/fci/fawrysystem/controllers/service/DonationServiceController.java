@@ -49,40 +49,35 @@ public class DonationServiceController {
         double amount = Double.parseDouble(payload.get("amount"));
         String email = payload.get("email");
 
-
-        this.serviceProvider = myFactory.create(provider);
         Map<String, String> response = new HashMap<>();
         paymentController.updateManger();
 
-        if (this.serviceProvider.FormHandler(payload)) {
-            Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
+        Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
 
-            for (IAccount account : loggedInUsers) {
-                if (Objects.equals(account.getEmail(), email)) {
-                    double price = paymentController.calculatePayment(account, amount, provider);
+        for (IAccount account : loggedInUsers) {
+            if (Objects.equals(account.getEmail(), email)) {
+                double price = paymentController.calculatePayment(account, amount, provider);
 
-                    response.put("amountToPay", String.valueOf(price));
+                response.put("amountToPay", String.valueOf(price));
 
-                    return response;
-                }
+                return response;
             }
-
-            response.put("error", "email not logged in");
-
-        } else {
-            response.put("error", "invalid amount or entered phone number is not correct");
         }
-        return response;
 
+        response.put("error", "email not logged in");
+
+        return response;
     }
 
     @PostMapping(value = "/donation/pay")
     public Map<String, String> donationPayment(@RequestBody Map<String, String> payload) {
 
-        double amount = Double.parseDouble(payload.get("amountToPay"));
+        double amount = Double.parseDouble(payload.get("amount"));
         String name = payload.get("provider");
         String email = payload.get("email");
+        serviceProvider = myFactory.create(name);
         String paymentType = payload.get("paymentType");
+
         Vector<IAccount> loggedInUsers = system.getLoggedInUsers();
         Map<String, String> response = new HashMap<>();
 
@@ -90,6 +85,11 @@ public class DonationServiceController {
             paymentController.setPaymentMethod(new PayWithCreditCard());
         } else {
             paymentController.setPaymentMethod(new PayWithWallet());
+        }
+
+        if(!this.serviceProvider.FormHandler(payload)) {
+            response.put("error", "invalid amount");
+            return response;
         }
 
         for (IAccount account : loggedInUsers) {
