@@ -7,7 +7,7 @@ Software Porject for Advanced Software Engineering course
   * spring-boot
   * lombok
   * spring-web
-  * java 17
+  * java 11
   * postman
   
 for Eclipse EE 
