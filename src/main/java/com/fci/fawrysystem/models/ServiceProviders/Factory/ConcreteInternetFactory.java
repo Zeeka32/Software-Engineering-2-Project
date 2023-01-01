@@ -12,7 +12,7 @@ public class ConcreteInternetFactory implements ServiceFactory {
         }else if(Objects.equals(type, "orange")) {
             return new OrangeInternet();
         }else if(Objects.equals(type, "vodafone")) {
-            new VodafoneInternet();
+            return new VodafoneInternet();
         }else if(Objects.equals(type, "etisalat")) {
             return new EtisalatInternet();
         }

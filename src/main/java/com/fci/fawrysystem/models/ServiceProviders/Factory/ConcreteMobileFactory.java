@@ -12,7 +12,7 @@ public class ConcreteMobileFactory implements ServiceFactory {
         }else if(Objects.equals(type, "orange")) {
             return new OrangeMobile();
         }else if(Objects.equals(type, "vodafone")) {
-            new VodafoneMobile();
+            return new VodafoneMobile();
         }else if(Objects.equals(type, "etisalat")) {
             return new EtisalatMobile();
         }

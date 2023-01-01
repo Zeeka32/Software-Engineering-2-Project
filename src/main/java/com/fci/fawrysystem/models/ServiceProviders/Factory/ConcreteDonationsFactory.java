@@ -15,7 +15,7 @@ public class ConcreteDonationsFactory implements ServiceFactory {
         }else if(Objects.equals(type, "school")) {
             return new School();
         }else if(Objects.equals(type, "cancerhospital")) {
-            new CancerHospital();
+            return new CancerHospital();
         }
         return null;
     }
